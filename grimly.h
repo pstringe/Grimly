@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/09 21:04:24 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/10 09:46:17 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GRIMLY_H
 # include "libft.h"
 
-typedef struct	*s_m
+typedef struct	s_m
 {
 	int		r_n;
 	int		c_n;

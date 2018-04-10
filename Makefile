@@ -1,7 +1,7 @@
 CC = gcc
 INC = ./libft
 NAME = grimly
-SRCS = main.c
+SRCS = grimly.c
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 LIBD = -L$(INC) -lft
 CFLAGS = -Wall -Werror -Wextra -I$(INC) 
@@ -26,14 +26,14 @@ clean:
 	rm -f $(OBJS)
 
 fclean: clean
+	make fclean -C ./libft/
 	rm -f $(NAME)
 	rm -f $(DNAME)
 	rm -rf $(DNAME).dSYM
-	make -C fclean
 re: fclean
 	make
 debug: $(DNAME)
 
-$(DNAME): fclean
+$(DNAME): fclean libft.a
 	$(CC) $(DFLAGS) $(DNAME)
 	lldb $(DNAME) $(DARGS)
