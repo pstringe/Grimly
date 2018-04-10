@@ -1,6 +1,9 @@
 CC = gcc
 INC = ./libft
-NAME = grimly
+NAME = grimly\
+	   solve.c\
+	   parse.c\
+	   utils.c\
 SRCS = grimly.c
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 LIBD = -L$(INC) -lft
