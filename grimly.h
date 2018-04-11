@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/10 14:53:24 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/10 19:41:01 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ g_c = {1, 0, -1, 0};
 /*
 **	struct to store distances of ponits from entrance
 */
+
+typedef struct	s_q
+{
+	struct s_list	**head;
+	struct s_list	*lst;
+	struct s_list	**tail;
+}				t_q;
 
 typedef	struct	s_p
 {
