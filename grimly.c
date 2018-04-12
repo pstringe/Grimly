@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:42:59 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/11 17:00:47 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/11 18:03:13 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,13 @@ void	queue_neighbors(t_m *m, t_list *cur, int nr[4], int nc[4])
 	{
 		y = c->y + nr[i];
 		x = c->x + nc[i];
-		if (y < m->r_n && x < m->c_n)
+		if ((y >= 0 && y < m->r_n) && (x >= 0 && x < m->c_n))
 		{
-			n = ft_lstnew(pnt_new(c, y, x), sizeof(t_p));
-			ft_lstadd_tail(&(m->q), n);
-			m->v[y][x] = 1;
+			if (!m->v[y][x] && m->map[y][x] != m->full)
+			{
+				n = ft_lstnew(pnt_new(c, y, x), sizeof(t_p));
+				ft_lstadd_tail(&(m->q), n);
+			}
 		}
 	}
 }
@@ -82,11 +84,11 @@ void init_n(int r[4], int c[4])
 {
 	r[0] = -1;
 	r[1] = 0;
-	r[2] = 1;
-	r[3] = 0;
-	c[0] = 1;
-	c[1] = 0;
-	c[2] = -1;
+	r[2] = 0;
+	r[3] = 1;
+	c[0] = 0;
+	c[1] = -1;
+	c[2] = 1;
 	c[3] = 0; 
 }
 
@@ -97,7 +99,6 @@ void init_n(int r[4], int c[4])
 
 t_p		*solve(t_m *m, t_p *src)
 {
-	t_list	*q;
 	t_list	*cur;
 	t_p		*tmp;
 	int	r[4];
@@ -105,14 +106,16 @@ t_p		*solve(t_m *m, t_p *src)
 
 	init_n(r, c); 
 	m->v = init_v(m, src);
-	q = ft_lstnew(src, sizeof(src));
-	cur = q;
+	m->q = ft_lstnew(src, sizeof(t_p));
+	cur = m->q;
 	while (cur)
 	{
-		tmp = (t_p*)(cur->content);
-		if(m->map[tmp->x][tmp->y] == m->exit)
-			return (tmp);
 		queue_neighbors(m, cur, r, c);
+		tmp = (cur) ? (t_p*)(cur->content) : NULL;
+		if(tmp && m->map[tmp->y][tmp->x] == m->exit)
+			return (tmp);
+		else if (tmp)
+			m->v[tmp->y][tmp->x] = 1;
 		cur = cur->next;
 	}
 	return (NULL);
