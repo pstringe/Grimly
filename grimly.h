@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/10 19:41:01 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/11 16:45:03 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,15 @@
 # include "libft.h"
 
 /*
-**	used to quickly locate neiboring positions on the map;
-*/
-
-g_r = {-1, 0, 0, 1};
-g_c = {1, 0, -1, 0};
-
-/*
 **	struct to store distances of ponits from entrance
 */
 
-typedef struct	s_q
-{
-	struct s_list	**head;
-	struct s_list	*lst;
-	struct s_list	**tail;
-}				t_q;
-
 typedef	struct	s_p
 {
-	int x;
-	int	y;
-	int	d;
+	struct s_p *pa;
+	int 		x;
+	int			y;
+	int			d;
 }				t_p;
 
 /*
@@ -54,6 +41,21 @@ typedef struct	s_m
 	char	exit;
 	char	**map;
 	int		**v;
+	t_list	*q;
+	
 }				t_m;
 
+/*
+**	parsing functions
+*/
+
+int		get_map(int	f, t_m *m);
+int		get_maze(int f, t_m *m);
+
+/*
+**	utility funtions
+*/
+
+void 	put_map_data(t_m m);
+void	put_maze(t_m m, int d);
 #endif

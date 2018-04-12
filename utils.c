@@ -6,11 +6,11 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 11:32:03 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/10 11:34:11 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/11 16:29:06 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "grimly.c"
+#include "grimly.h"
 
 /*
 **	displays maze related data
