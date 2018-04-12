@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:42:59 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/11 18:03:13 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/11 20:17:27 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ t_p		*solve(t_m *m, t_p *src)
 			return (tmp);
 		else if (tmp)
 			m->v[tmp->y][tmp->x] = 1;
-		cur = cur->next;
+		m->q = m->q->next;
+		free(cur);
+		cur = m->q;
 	}
 	return (NULL);
 }
@@ -155,12 +157,12 @@ t_p		*ident_src(t_m m)
 **	draws the path on the map from dst to src
 */
 
-void	put_path(t_m *m, t_p *dst)
+void	put_path(t_m *m, t_p *dst, t_p *src)
 {
 	t_p		*tmp;
 
 	tmp = dst->pa;
-	while (tmp)
+	while (!(tmp->x == src->x && tmp->y == src->y))
 	{
 		m->map[tmp->y][tmp->x] = m->path;
 		tmp = tmp->pa;
@@ -175,15 +177,16 @@ void	put_path(t_m *m, t_p *dst)
 void	grimly(int fd)
 {
 	t_m		maze;
+	t_p		*src;
 	t_p		*dst;
 
 	if (get_maze(fd, &maze) < 0)
 		ft_putendl("MAP ERROR");
-	else if (!(dst = solve(&maze, ident_src(maze))))
+	else if (!(dst = solve(&maze, (src = ident_src(maze)))))
 		ft_putendl("MAP ERROR");
 	else
 	{
-		put_path(&maze, dst);
+		put_path(&maze, dst , src);
 		put_maze(maze, 0);
 	}
 }
