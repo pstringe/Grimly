@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:42:59 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/11 20:17:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/13 11:55:53 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,49 +36,65 @@ int		**init_v(t_m *m, t_p *src)
 }
 
 /*
-**	creates a new point struct and attatches it to its parent
+**	returns a code to indicate direction of wave propagation
 */
 
-t_p		*pnt_new(t_p *p, int y, int x)
+int		get_d(int y, int x)
+{
+	if (y == -1 && !x)
+		return (1);
+	else if (!y && x == -1)
+		return (2);
+	else if (!y && x == 1)
+		return (3);
+	else if (y == 1 && !x)
+		return (4);
+	return (0);
+}
+
+/*
+**	creates a new point struct and attatches it to its parent
+**	no more parents in this version
+*/
+
+t_p		*pnt_new(int y, int x, int yo, int xo)
 {
 	t_p		*pnt;
 
 	pnt = ft_memalloc(sizeof(t_p));
-	pnt->d = (p) ? p->d + 1 : 0;
-	pnt->pa = p;
+	pnt->d = get_d(yo, xo);
 	pnt->x = x;
 	pnt->y = y;
 	return (pnt);
 }
 
+
 /*
 **	queues the neigboring cells that have not been visited.
 */
 
-void	queue_neighbors(t_m *m, t_list *cur, int nr[4], int nc[4])
+void	queue_neighbors(t_m *m, t_p *cur, int nr[4], int nc[4])
 {
 	int		i;
 	int		x;
 	int		y;
-	t_p		*c;
-	t_list	*n;
 
-	c = (t_p*)(cur->content);
 	i = -1;
 	while (++i < 4)
 	{
-		y = c->y + nr[i];
-		x = c->x + nc[i];
+		y = cur->y + nr[i];
+		x = cur->x + nc[i];
 		if ((y >= 0 && y < m->r_n) && (x >= 0 && x < m->c_n))
 		{
 			if (!m->v[y][x] && m->map[y][x] != m->full)
-			{
-				n = ft_lstnew(pnt_new(c, y, x), sizeof(t_p));
-				ft_lstadd_tail(&(m->q), n);
-			}
+				ft_enqueue(m->q, pnt_new(y, x, nr[i], nc[i]), sizeof(t_p));
 		}
 	}
 }
+
+/*
+**	initialize row and column arrays used to find neigbors with ease
+*/
 
 void init_n(int r[4], int c[4])
 {
@@ -99,27 +115,24 @@ void init_n(int r[4], int c[4])
 
 t_p		*solve(t_m *m, t_p *src)
 {
-	t_list	*cur;
-	t_p		*tmp;
+	t_p		*cur;
 	int	r[4];
 	int	c[4];
 
 	init_n(r, c); 
 	m->v = init_v(m, src);
-	m->q = ft_lstnew(src, sizeof(t_p));
-	cur = m->q;
-	while (cur)
+	m->q = ft_queuenw(src, sizeof(t_p));
+	while (m->q->tail)
 	{
+		cur = (t_p*)ft_dequeue(m->q);
 		queue_neighbors(m, cur, r, c);
-		tmp = (cur) ? (t_p*)(cur->content) : NULL;
-		if(tmp && m->map[tmp->y][tmp->x] == m->exit)
-			return (tmp);
-		else if (tmp)
-			m->v[tmp->y][tmp->x] = 1;
-		m->q = m->q->next;
+		if(cur && m->map[cur->y][cur->x] == m->exit)
+			return (cur);
+		else if (cur)
+			m->v[cur->y][cur->x] = cur->d;
 		free(cur);
-		cur = m->q;
 	}
+	ft_memdel((void**)cur);
 	return (NULL);
 }
 
@@ -137,19 +150,19 @@ t_p		*ident_src(t_m m)
 	j = 0;
 	while (++i < m.r_n)
 		if (m.map[i][j] == m.enter)
-			return (pnt_new(NULL, i, j));
+			return (pnt_new(i, j, 0, 0));
 	--i;
 	while (++j < m.c_n)
 		if (m.map[i][j] == m.enter)
-			return (pnt_new(NULL, i, j));
+			return (pnt_new(i, j, 0, 0));
 	--j;
 	while (--i >= 0)
 		if (m.map[i][j] == m.enter)
-			return (pnt_new(NULL, i, j));
+			return (pnt_new(i, j, 0, 0));
 	++i;
 	while (--j >= 0)
 		if (m.map[i][j] == m.enter)
-			return (pnt_new(NULL, i, j));
+			return (pnt_new(i, j, 0, 0));
 	return (NULL);
 }
 
@@ -159,13 +172,24 @@ t_p		*ident_src(t_m m)
 
 void	put_path(t_m *m, t_p *dst, t_p *src)
 {
-	t_p		*tmp;
+	int	i;
+	int	j;
+	int	**v;
 
-	tmp = dst->pa;
-	while (!(tmp->x == src->x && tmp->y == src->y))
+	v = m->v;
+	i = dst->y;
+	j =	dst->x;
+	while (!(i == src->y && j == src->x))
 	{
-		m->map[tmp->y][tmp->x] = m->path;
-		tmp = tmp->pa;
+		if (v[i][j] == 1)
+			i++;	
+		else if (v[i][j] == 2)
+			j++;
+		else if (v[i][j] == 3)
+			j--;
+		else if (v[i][j] == 4)
+			i--;
+		m->map[i][j] = m->path;
 	}
 }
 
@@ -186,7 +210,7 @@ void	grimly(int fd)
 		ft_putendl("MAP ERROR");
 	else
 	{
-		put_path(&maze, dst , src);
+		put_path(&maze, dst, src);
 		put_maze(maze, 0);
 	}
 }

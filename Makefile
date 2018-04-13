@@ -3,6 +3,7 @@ INC = ./libft
 NAME = grimly
 SRCS = grimly.c\
 	   parse.c\
+	   queue.c\
 	   utils.c
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 LIBD = -L$(INC) -lft

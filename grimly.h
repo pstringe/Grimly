@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/11 17:01:42 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/13 09:42:18 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,21 @@
 # include "libft.h"
 
 /*
+**	queue struct
+*/
+
+typedef struct	s_queue
+{
+	struct s_list	**head;
+	struct s_list	**tail;
+}				t_queue;
+
+/*
 **	struct to store distances of ponits from entrance
 */
 
 typedef	struct	s_p
 {
-	struct s_p *pa;
 	int 		x;
 	int			y;
 	int			d;
@@ -41,8 +50,7 @@ typedef struct	s_m
 	char	exit;
 	char	**map;
 	int		**v;
-	t_list	*q;
-	
+	t_queue	*q;
 }				t_m;
 
 /*
@@ -52,6 +60,13 @@ typedef struct	s_m
 int		get_map(int	f, t_m *m);
 int		get_maze(int f, t_m *m);
 
+/*
+**	queue functions
+*/
+
+t_queue		*ft_queuenw(void *n, size_t size);
+void		*ft_dequeue(struct s_queue *q);
+void		ft_enqueue(struct s_queue *q, void *n, size_t size);
 /*
 **	utility funtions
 */
