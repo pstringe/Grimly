@@ -6,22 +6,22 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/13 09:42:18 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/15 07:21:35 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GRIMLY_H
 # define GRIMLY_H
 # include "libft.h"
-
+# include <assert.h>
 /*
 **	queue struct
 */
 
 typedef struct	s_queue
 {
-	struct s_list	**head;
-	struct s_list	**tail;
+	struct s_list	*head;
+	struct s_list	*tail;
 }				t_queue;
 
 /*
@@ -65,7 +65,7 @@ int		get_maze(int f, t_m *m);
 */
 
 t_queue		*ft_queuenw(void *n, size_t size);
-void		*ft_dequeue(struct s_queue *q);
+void		*ft_dequeue(struct s_queue *q, size_t size);
 void		ft_enqueue(struct s_queue *q, void *n, size_t size);
 /*
 **	utility funtions

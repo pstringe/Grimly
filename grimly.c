@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:42:59 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/13 11:55:53 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/15 07:46:51 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	queue_neighbors(t_m *m, t_p *cur, int nr[4], int nc[4])
 	i = -1;
 	while (++i < 4)
 	{
+		assert(cur);
 		y = cur->y + nr[i];
 		x = cur->x + nc[i];
 		if ((y >= 0 && y < m->r_n) && (x >= 0 && x < m->c_n))
@@ -122,17 +123,16 @@ t_p		*solve(t_m *m, t_p *src)
 	init_n(r, c); 
 	m->v = init_v(m, src);
 	m->q = ft_queuenw(src, sizeof(t_p));
-	while (m->q->tail)
+	while ((cur = (t_p*)ft_dequeue(m->q, sizeof(t_p))))
 	{
-		cur = (t_p*)ft_dequeue(m->q);
 		queue_neighbors(m, cur, r, c);
+		if (cur)
+			m->v[cur->y][cur->x] = (cur->d) ? cur->d : -1;
 		if(cur && m->map[cur->y][cur->x] == m->exit)
 			return (cur);
-		else if (cur)
-			m->v[cur->y][cur->x] = cur->d;
-		free(cur);
+			free(cur);
 	}
-	ft_memdel((void**)cur);
+	ft_memdel((void**)&cur);
 	return (NULL);
 }
 
@@ -189,7 +189,7 @@ void	put_path(t_m *m, t_p *dst, t_p *src)
 			j--;
 		else if (v[i][j] == 4)
 			i--;
-		m->map[i][j] = m->path;
+		m->map[i][j] = (v[i][j] != -1) ? m->path : m->map[i][j];
 	}
 }
 
@@ -214,6 +214,10 @@ void	grimly(int fd)
 		put_maze(maze, 0);
 	}
 }
+
+/*
+**	cycles through map input and executes the program on each map
+*/
 
 int		main(int argc, char **argv)
 {
