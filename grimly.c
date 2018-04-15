@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:42:59 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/15 07:46:51 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/15 08:25:30 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,14 @@ t_p		*solve(t_m *m, t_p *src)
 	init_n(r, c); 
 	m->v = init_v(m, src);
 	m->q = ft_queuenw(src, sizeof(t_p));
-	while ((cur = (t_p*)ft_dequeue(m->q, sizeof(t_p))))
+	while ((cur = (t_p*)ft_dequeue(m->q)))
 	{
 		queue_neighbors(m, cur, r, c);
 		if (cur)
 			m->v[cur->y][cur->x] = (cur->d) ? cur->d : -1;
 		if(cur && m->map[cur->y][cur->x] == m->exit)
 			return (cur);
-			free(cur);
+		free(cur);
 	}
 	ft_memdel((void**)&cur);
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 08:25:56 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/15 07:22:10 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/15 08:27:21 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		ft_enqueue(struct s_queue *q, void *n, size_t size)
 	q->tail = tmp;
 }
 
-void		*ft_dequeue(struct s_queue *q, size_t size)
+void		*ft_dequeue(struct s_queue *q)
 {
 	t_list		*tmp;
 	void		*t;
@@ -48,10 +48,8 @@ void		*ft_dequeue(struct s_queue *q, size_t size)
 		return (NULL);
 	tmp = q->head;
 	q->head = q->head->next;
-	t = ft_memalloc(size);
-	ft_memcpy(t, tmp->content, size);
-	ft_memdel((void**)&(tmp->content));
-	ft_memdel((void**)&tmp);
+	t = tmp->content;
+	free(tmp);
 	if(!q->head)
 		q->tail = NULL;
 	return (t);
