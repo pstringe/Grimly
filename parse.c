@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 11:35:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/16 08:31:48 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/16 09:23:03 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		**init_v(t_m *m, t_p *src)
 	int		**v;
 	int		i;
 	int		j;
-	
+
 	v = (int**)ft_memalloc(sizeof(int*) * m->r_n);
 	i = -1;
 	while (++i < m->r_n)
@@ -32,17 +32,17 @@ int		**init_v(t_m *m, t_p *src)
 			v[i][j] = 0;
 	}
 	v[src->y][src->x] = 1;
-	return(v);
+	return (v);
 }
 
 /*
 **	obtains 2D map of maze
 */
 
-int		get_map(int	f, t_m *m)
+int		get_map(int f, t_m *m)
 {
 	char	**map;
-	char 	*row;
+	char	*row;
 	int		i;
 
 	map = (char**)ft_memalloc(sizeof(char*) * (m->r_n + 1));
@@ -67,31 +67,39 @@ int		get_map(int	f, t_m *m)
 **	parses first line of maze file to initialize maze structure
 */
 
-int		get_maze(int f, t_m *m)
+void	get_stuff(char *i)
 {
-	char	*head;
-	char	*i;
-	char 	c;
-	char 	*cn;
-
-	if(get_next_line(f, &head) < 0)
-		return (-1);
-	*(i = ft_strchr(head, 'x')) = '\0';
-	m->r_n = ft_atoi(ft_strdup(head));
-	m->c_n = ft_atoi((cn = ft_strdup(i ? i + 1 : NULL)));
-	while(*(++i) >= '0' && *i <= '9');
+	while (*(++i) >= '0' && *i <= '9')
+	{
+	}
 	m->full = *i++;
 	m->empty = *i++;
 	m->path = *i++;
 	m->enter = *i++;
 	m->exit = *i++;
 	c = *i;
+}
+
+int		get_maze(int f, t_m *m)
+{
+	char	*head;
+	char	*i;
+	char	c;
+	char	*cn;
+
+	if (get_next_line(f, &head) < 0)
+		return (-1);
+	i = ft_strchr(head, 'x');
+	*i = '\0';
+	m->r_n = ft_atoi(ft_strdup(head));
+	cn = ft_strdup(i ? i + 1 : NULL);
+	m->c_n = ft_atoi(cn);
+	get_stuff(i);
 	ft_memdel((void**)&cn);
 	ft_memdel((void**)&head);
 	if (c || get_map(f, m) < 0)
 		return (-1);
-	else
-		return (0);	
+	return (0);
 }
 
 /*
