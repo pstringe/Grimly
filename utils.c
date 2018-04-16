@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 11:32:03 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/11 17:10:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/16 09:24:52 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	displays maze related data
 */
 
-void 	put_map_data(t_m m)
+void	put_map_data(t_m m)
 {
 	ft_putstr("row no:\t\t");
 	ft_putnbr(m.r_n);
@@ -48,7 +48,7 @@ void 	put_map_data(t_m m)
 void	put_maze(t_m m, int d)
 {
 	int		i;
-	
+
 	if (d)
 		put_map_data(m);
 	i = -1;
