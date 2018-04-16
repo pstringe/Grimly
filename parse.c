@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 11:35:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/11 16:31:00 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/15 20:01:15 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@ int		get_map(int	f, t_m *m)
 	char 	*row;
 	int		i;
 
-	map = (char **)ft_memalloc(sizeof(char*) * m->r_n + 1);
+	map = (char**)ft_memalloc(sizeof(char*) * m->r_n + 1);
 	map[m->r_n] = NULL;
 	i = 0;
 	while (get_next_line(f, &row) > 0 && i < m->r_n)
 	{
 		if ((int)ft_strlen(row) != m->c_n)
+		{
+			free(row);
 			return (-1);
+		}
 		map[i] = ft_strdup(row);
 		free(row);
 		i++;
@@ -57,6 +60,7 @@ int		get_maze(int f, t_m *m)
 	m->path = *i++;
 	m->enter = *i++;
 	m->exit = *i++;
+	ft_memdel((void**)&head);
 	if (*i || get_map(f, m) < 0)
 		return (-1);
 	else

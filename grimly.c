@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:42:59 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/15 08:25:30 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/15 20:34:50 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_p		*solve(t_m *m, t_p *src)
 			m->v[cur->y][cur->x] = (cur->d) ? cur->d : -1;
 		if(cur && m->map[cur->y][cur->x] == m->exit)
 			return (cur);
-		free(cur);
+		ft_memdel((void**)&cur);
 	}
 	ft_memdel((void**)&cur);
 	return (NULL);
@@ -193,6 +193,21 @@ void	put_path(t_m *m, t_p *dst, t_p *src)
 	}
 }
 
+void	destroy_maze(t_m *m)
+{	
+	int	i;
+
+	i = -1;
+	while(++i < m->r_n)
+	{
+		ft_memdel((void**)&(m->map[i]));
+		ft_memdel((void**)&(m->v[i]));
+	}
+	ft_memdel((void**)(m->map));
+	ft_memdel((void**)(m->v));
+	ft_memdel((void**)&(m->q));
+}
+
 /*
 **	parses, validates, solves, and prints a map from valid file descriptors given 
 **	input, will display error messages appropriatly.
@@ -212,6 +227,8 @@ void	grimly(int fd)
 	{
 		put_path(&maze, dst, src);
 		put_maze(maze, 0);
+		ft_memdel((void**)src);
+		destroy_maze(&maze);
 	}
 }
 
@@ -229,5 +246,6 @@ int		main(int argc, char **argv)
 		while (argv[++i])
 			grimly(open(argv[i], O_RDONLY));
 	}
+	while (1);
 	return(0);
 }
