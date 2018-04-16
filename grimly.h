@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/15 08:15:59 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/16 08:31:46 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define GRIMLY_H
 # include "libft.h"
 # include <assert.h>
+
 /*
 **	queue struct
 */
@@ -54,23 +55,40 @@ typedef struct	s_m
 }				t_m;
 
 /*
+**	point functions
+*/
+
+int				get_d(int y, int x);
+t_p				*pnt_new(int y, int x, int yo, int xo);
+
+/*
 **	parsing functions
 */
 
-int		get_map(int	f, t_m *m);
-int		get_maze(int f, t_m *m);
+int				**init_v(t_m *m, t_p *src);
+t_p				*ident_src(t_m m);
+int				get_map(int	f, t_m *m);
+int				get_maze(int f, t_m *m);
 
 /*
 **	queue functions
 */
 
-t_queue		*ft_queuenw(void *n, size_t size);
-void		*ft_dequeue(struct s_queue *q);
-void		ft_enqueue(struct s_queue *q, void *n, size_t size);
+t_queue			*ft_queuenw(void *n, size_t size);
+void			*ft_dequeue(struct s_queue *q);
+void			ft_enqueue(struct s_queue *q, void *n, size_t size);
+
+/*
+**	solve functions
+*/
+
+t_p				*solve(t_m *m, t_p *src);
+
 /*
 **	utility funtions
 */
 
-void 	put_map_data(t_m m);
-void	put_maze(t_m m, int d);
+void 			put_map_data(t_m m);
+void			put_maze(t_m m, int d);
+
 #endif

@@ -67,7 +67,7 @@ SRCS = ft_bzero.c\
 	   ft_lstlen.c
 
 OBJS := $(patsubst %.c, %.o, $(SRCS))
-CFLAGS = -c -Wall -Werror -Wextra
+CFLAGS = -c -Wall -Werror -Wextra -g
 
 all : $(NAME)
 

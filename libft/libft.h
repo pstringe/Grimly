@@ -52,6 +52,7 @@ int					ft_nbrlen(int nbr);
 unsigned int		ft_absval(int n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
+
 void				*ft_memalloc(size_t size);
 char				*ft_strnew(size_t size);
 void				ft_memdel(void **ap);
