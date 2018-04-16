@@ -6,14 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/16 08:31:46 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/16 08:58:57 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GRIMLY_H
 # define GRIMLY_H
 # include "libft.h"
-# include <assert.h>
 
 /*
 **	queue struct
@@ -31,9 +30,9 @@ typedef struct	s_queue
 
 typedef	struct	s_p
 {
-	int 		x;
-	int			y;
-	int			d;
+	int x;
+	int y;
+	int d;
 }				t_p;
 
 /*
@@ -88,7 +87,7 @@ t_p				*solve(t_m *m, t_p *src);
 **	utility funtions
 */
 
-void 			put_map_data(t_m m);
+void			put_map_data(t_m m);
 void			put_maze(t_m m, int d);
 
 #endif
