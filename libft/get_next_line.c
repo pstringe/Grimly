@@ -6,13 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:13:13 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/15 22:15:42 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/16 09:29:12 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int		ft(char **arr, char **line)
+int		ft(char **arr, char **line)
 {
 	char *n;
 	char *tmp;
