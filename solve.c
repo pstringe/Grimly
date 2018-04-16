@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 08:00:28 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/16 08:35:37 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/04/16 09:04:44 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	init_n(int r[4], int c[4])
 	c[0] = 0;
 	c[1] = -1;
 	c[2] = 1;
-	c[3] = 0; 
+	c[3] = 0;
 }
 
 /*
@@ -57,13 +57,13 @@ void	init_n(int r[4], int c[4])
 **	or NULL if there is no destination.
 */
 
-t_p			*solve(t_m *m, t_p *src)
+t_p		*solve(t_m *m, t_p *src)
 {
 	t_p		*cur;
-	int	r[4];
-	int	c[4];
+	int		r[4];
+	int		c[4];
 
-	init_n(r, c); 
+	init_n(r, c);
 	m->v = init_v(m, src);
 	m->q = ft_queuenw(src, sizeof(t_p));
 	while ((cur = (t_p*)ft_dequeue(m->q)))
@@ -71,7 +71,7 @@ t_p			*solve(t_m *m, t_p *src)
 		queue_neighbors(m, cur, r, c);
 		if (cur)
 			m->v[cur->y][cur->x] = (cur->d) ? cur->d : -1;
-		if(cur && m->map[cur->y][cur->x] == m->exit)
+		if (cur && m->map[cur->y][cur->x] == m->exit)
 			return (cur);
 		ft_memdel((void**)&(cur));
 	}
